@@ -162,6 +162,10 @@ app.post('/api/evaluacion', async (req, res) => {
   res.json({ resultado, razon, recomendaciones, puntaje, porcentaje, maxPuntaje });
 });
 
-app.listen(3000, () => {
-  console.log("Servidor corriendo en http://localhost:3000");
-});
+if (require.main === module) {
+  app.listen(3000, () => {
+    console.log("Servidor corriendo en http://localhost:3000");
+  });
+}
+
+module.exports = { app, generarRecomendaciones };
