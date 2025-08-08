@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ${respuestasHTML}
           </div>
           <div class="progress mt-3 animate__animated animate__fadeInUp">
+
           <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
         </div>
         <canvas id="resumenChart" class="mt-4"></canvas>
