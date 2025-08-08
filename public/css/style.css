@@ -1,0 +1,8 @@
+/* Custom styles for formulario */
+#resultado .alert {
+  animation-duration: 0.8s;
+}
+
+#progressBar {
+  transition: width 0.5s ease-in-out;
+}
