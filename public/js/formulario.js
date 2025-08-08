@@ -79,10 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const res = await response.json();
 
+      let imgSrc = '/img/alto_riesgo.svg';
+      if (res.resultado.includes('éxito')) {
+        imgSrc = '/img/exito.svg';
+      } else if (res.resultado.includes('Riesgo moderado')) {
+        imgSrc = '/img/riesgo_moderado.svg';
+      }
+
+      let respuestasHTML = '';
+      if (res.respuestas) {
+        const items = Object.entries(res.respuestas)
+          .map(([k, v]) => `<li><strong>${k}:</strong> ${v}</li>`)
+          .join('');
+        respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
+      }
+
       resultadoDiv.innerHTML = `
         <div class="alert alert-info animate__animated animate__fadeInUp">
           <h4>${res.resultado}</h4>
+          <p><strong>Estudiante:</strong> ${res.nombre}</p>
           <p><strong>Puntaje:</strong> ${res.puntaje} / ${res.maxPuntaje}</p>
+          <img src="${imgSrc}" alt="${res.resultado}" class="resultado-img"/>
+          ${respuestasHTML}
         </div>
         <div class="progress mt-3 animate__animated animate__fadeInUp">
           <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
