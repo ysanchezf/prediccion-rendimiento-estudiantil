@@ -24,6 +24,7 @@ describe('Rutas principales', () => {
     }
     const res = await request(app).post('/api/evaluacion').send(body);
     expect(res.statusCode).toBe(200);
+    expect(res.body).toHaveProperty('nombre', 'Test');
     expect(res.body).toHaveProperty('resultado');
     expect(res.body).toHaveProperty('puntaje', 45);
     expect(res.body).toHaveProperty('maxPuntaje', 45);
@@ -31,6 +32,16 @@ describe('Rutas principales', () => {
     expect(res.body).toHaveProperty('razon');
     expect(Array.isArray(res.body.recomendaciones)).toBe(true);
     expect(res.body.recomendaciones.length).toBeGreaterThan(0);
+  });
+
+  test('POST /api/evaluacion requiere nombre', async () => {
+    const body = {};
+    for (let i = 1; i <= 15; i++) {
+      body[`p${i}`] = 1;
+    }
+    const res = await request(app).post('/api/evaluacion').send(body);
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty('error', 'Nombre requerido');
   });
 
   test('POST /api/evaluacion incluye campo resultado para animación', async () => {
