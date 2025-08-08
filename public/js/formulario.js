@@ -1,6 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('form');
+  const pasos = document.querySelectorAll('.question-step');
   const resultadoDiv = document.getElementById('resultado');
+
+  let pasoActual = 0;
+  const mostrarPaso = (indice) => {
+    pasos.forEach((p, i) => p.classList.toggle('active', i === indice));
+  };
+  mostrarPaso(pasoActual);
+
+  pasos.forEach((paso, idx) => {
+    const select = paso.querySelector('select');
+    const btn = paso.querySelector('.next-btn');
+    btn.addEventListener('click', () => {
+      if (!select.value) return;
+      if (idx === pasos.length - 1) {
+        form.submit();
+      } else {
+        pasoActual++;
+        mostrarPaso(pasoActual);
+      }
+    });
+  });
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
