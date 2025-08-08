@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(data)
       });
       const res = await response.json();
+      if (!res.nombre) {
+        resultadoDiv.innerHTML = `<div class="alert alert-danger">Nombre no proporcionado</div>`;
+        return;
+      }
 
       let imgSrc = '/img/alto_riesgo.svg';
       if (res.resultado.includes('éxito')) {
@@ -107,15 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
           respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
         }
 
-        let recomendacionesHTML = '';
-        if (res.recomendaciones) {
-          const recItems = res.recomendaciones
-            .map(r => `<li>${r}</li>`)
-            .join('');
-          recomendacionesHTML = `<h5>Recomendaciones:</h5><ul>${recItems}</ul>`;
-        }
-
-        const nombre = res.nombre || 'No especificado';
+        const nombre = res.nombre;
 
         resultadoDiv.innerHTML = `
           <div class="alert alert-info animate__animated animate__fadeInUp">
