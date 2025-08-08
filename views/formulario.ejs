@@ -19,9 +19,10 @@
       <% preguntas.forEach((p, i) => {
         const rec = recomendacionesPreguntas.find(r => r.indice === i);
       %>
-        <div class="mb-3">
+        <div class="mb-3 question-step <%= i === 0 ? 'active' : '' %>">
           <label class="form-label <%= rec ? 'text-danger' : '' %>"><strong><%= i+1 %>. <%= p %></strong></label>
           <select name="p<%= i+1 %>" class="form-select <%= rec ? 'border border-danger' : '' %>" required>
+            <option value="" <%= respuestas[i] === undefined ? 'selected' : '' %> disabled>Selecciona una opción</option>
             <option value="3" <%= respuestas[i] === 3 ? 'selected' : '' %>>Excelente / Siempre / Frecuente</option>
             <option value="2" <%= respuestas[i] === 2 ? 'selected' : '' %>>Bueno / A veces / Parcial</option>
             <option value="1" <%= respuestas[i] === 1 ? 'selected' : '' %>>Poco / Rara vez</option>
@@ -30,10 +31,9 @@
           <% if (rec) { %>
             <div class="form-text text-danger"><%= rec.sugerencia %></div>
           <% } %>
+          <button type="button" class="btn btn-primary next-btn"><%= i === preguntas.length - 1 ? 'Enviar' : 'Siguiente' %></button>
         </div>
       <% }) %>
-
-      <button type="submit" class="btn btn-primary">Enviar evaluación</button>
       </form>
 
       <div id="resultado" class="mt-4"></div>

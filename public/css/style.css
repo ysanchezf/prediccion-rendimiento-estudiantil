@@ -1,4 +1,12 @@
 /* Custom styles for formulario */
+/* Ocultar preguntas por defecto */
+.question-step {
+  display: none;
+}
+
+.question-step.active {
+  display: block;
+}
 #resultado .alert {
   animation-duration: 0.8s;
 }
