@@ -173,15 +173,16 @@ app.post('/', async (req, res) => {
 });
 
 app.post('/api/evaluacion', async (req, res) => {
-  const datos = req.body;
-
-  const { nombre, ...respuestas } = datos;
+  const { nombre, ...respuestas } = req.body;
+  if (!nombre) {
+    return res.status(400).json({ error: 'Nombre requerido' });
+  }
 
   let puntaje = 0;
   let maxPuntaje = preguntas.length * 3;
 
   for (let i = 1; i <= preguntas.length; i++) {
-    puntaje += parseInt(datos[`p${i}`]) || 0;
+    puntaje += parseInt(respuestas[`p${i}`]) || 0;
   }
 
   const { resultado, razon, recomendaciones, porcentaje } = predecirRiesgo(puntaje, maxPuntaje);
