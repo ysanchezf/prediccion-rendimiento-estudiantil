@@ -41,5 +41,6 @@ describe('Rutas principales', () => {
     const opciones = ['éxito', 'Riesgo moderado', 'queme o abandono'];
     const contiene = opciones.some(op => res.body.resultado.includes(op));
     expect(contiene).toBe(true);
+
   });
 });

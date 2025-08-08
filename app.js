@@ -66,6 +66,19 @@ function predecirRiesgo(puntaje, maxPuntaje) {
   return { resultado, razon, recomendaciones, porcentaje };
 }
 
+function generarRecomendaciones(puntaje, maxPuntaje) {
+  const porcentaje = (puntaje / maxPuntaje) * 100;
+  let resultado = '';
+  if (porcentaje >= 66) {
+    resultado = '✅ Alta probabilidad de éxito académico';
+  } else if (porcentaje >= 33) {
+    resultado = '⚠️ Riesgo moderado';
+  } else {
+    resultado = '❌ Alta probabilidad de queme o abandono';
+  }
+  return { resultado, porcentaje };
+}
+
 const preguntas = [
   "¿Con qué frecuencia estudias fuera del horario de clases?",
   "¿Tienes un horario de estudio semanal?",
@@ -114,6 +127,9 @@ app.get('/', (req, res) => {
 app.post('/', async (req, res) => {
   const datos = req.body;
   const nombre = datos.nombre;
+  if (!nombre || !nombre.trim()) {
+    return res.status(400).send('Nombre requerido');
+  }
   let puntaje = 0;
   const maxPuntaje = preguntas.length * 3;
   const recomendacionesPreguntas = [];
@@ -158,7 +174,9 @@ app.post('/', async (req, res) => {
 
 app.post('/api/evaluacion', async (req, res) => {
   const datos = req.body;
+
   const { nombre, ...respuestas } = datos;
+
   let puntaje = 0;
   let maxPuntaje = preguntas.length * 3;
 
@@ -208,4 +226,7 @@ if (require.main === module) {
   });
 }
 
+
 module.exports = { app, generarRecomendaciones: predecirRiesgo };
+
+
