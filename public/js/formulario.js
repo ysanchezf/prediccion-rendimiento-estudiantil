@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         if (idx === pasos.length - 1) {
-          form.submit();
+          form.requestSubmit();
         } else {
           paso.classList.add('animate__fadeOut');
           setTimeout(() => {
