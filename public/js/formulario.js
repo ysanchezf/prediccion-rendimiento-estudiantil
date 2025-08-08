@@ -107,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
           respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
         }
 
+        let recomendacionesHTML = '';
+        if (res.recomendaciones) {
+          const recItems = res.recomendaciones
+            .map(r => `<li>${r}</li>`)
+            .join('');
+          recomendacionesHTML = `<h5>Recomendaciones:</h5><ul>${recItems}</ul>`;
+        }
+
         const nombre = res.nombre || 'No especificado';
 
         resultadoDiv.innerHTML = `
@@ -116,6 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Puntaje:</strong> ${res.puntaje} / ${res.maxPuntaje}</p>
             <img src="${imgSrc}" alt="${res.resultado}" class="resultado-img"/>
             ${respuestasHTML}
+            ${recomendacionesHTML}
           </div>
           <div class="progress mt-3 animate__animated animate__fadeInUp">
 
