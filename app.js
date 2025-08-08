@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 const preguntas = [
   "¿Con qué frecuencia estudias fuera del horario de clases?",
@@ -98,6 +99,31 @@ app.post('/', async (req, res) => {
     puntaje,
     porcentaje
   });
+});
+
+app.post('/api/evaluacion', async (req, res) => {
+  const datos = req.body;
+  const nombre = datos.nombre;
+  let puntaje = 0;
+  let maxPuntaje = preguntas.length * 3;
+
+  for (let i = 1; i <= preguntas.length; i++) {
+    puntaje += parseInt(datos[`p${i}`]) || 0;
+  }
+
+  const { resultado, razon, recomendaciones, porcentaje } = generarRecomendaciones(puntaje, maxPuntaje);
+
+  await prisma.Evaluacion.create({
+    data: {
+      nombre,
+      puntaje,
+      maxPuntaje,
+      porcentaje,
+      resultado
+    }
+  });
+
+  res.json({ resultado, razon, recomendaciones, puntaje, porcentaje, maxPuntaje });
 });
 
 app.listen(3000, () => {
