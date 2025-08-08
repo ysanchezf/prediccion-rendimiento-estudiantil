@@ -14,15 +14,20 @@
         <input type="text" name="nombre" class="form-control" required>
       </div>
 
-      <% preguntas.forEach((p, i) => { %>
+      <% preguntas.forEach((p, i) => {
+        const rec = recomendacionesPreguntas.find(r => r.indice === i);
+      %>
         <div class="mb-3">
-          <label class="form-label"><strong><%= i+1 %>. <%= p %></strong></label>
-          <select name="p<%= i+1 %>" class="form-select" required>
-            <option value="3">Excelente / Siempre / Frecuente</option>
-            <option value="2">Bueno / A veces / Parcial</option>
-            <option value="1">Poco / Rara vez</option>
-            <option value="0">Nunca / Nada / Muy mal</option>
+          <label class="form-label <%= rec ? 'text-danger' : '' %>"><strong><%= i+1 %>. <%= p %></strong></label>
+          <select name="p<%= i+1 %>" class="form-select <%= rec ? 'border border-danger' : '' %>" required>
+            <option value="3" <%= respuestas[i] === 3 ? 'selected' : '' %>>Excelente / Siempre / Frecuente</option>
+            <option value="2" <%= respuestas[i] === 2 ? 'selected' : '' %>>Bueno / A veces / Parcial</option>
+            <option value="1" <%= respuestas[i] === 1 ? 'selected' : '' %>>Poco / Rara vez</option>
+            <option value="0" <%= respuestas[i] === 0 ? 'selected' : '' %>>Nunca / Nada / Muy mal</option>
           </select>
+          <% if (rec) { %>
+            <div class="form-text text-danger"><%= rec.sugerencia %></div>
+          <% } %>
         </div>
       <% }) %>
 

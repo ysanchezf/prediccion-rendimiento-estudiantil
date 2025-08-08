@@ -27,6 +27,24 @@ const preguntas = [
   "¿Utilizas los servicios de apoyo de la universidad?"
 ];
 
+const sugerenciasPreguntas = [
+  "Organiza sesiones de estudio fuera del horario de clases para reforzar el aprendizaje.",
+  "Establece un horario de estudio semanal y cúmplelo con constancia.",
+  "Prioriza el descanso e intenta dormir al menos 6 horas cada noche.",
+  "Mejora tu alimentación incorporando comidas balanceadas durante el día.",
+  "Busca actividades o metas que te motiven dentro de tu carrera.",
+  "Solicita apoyo de profesores o tutorías para las materias que se te dificultan.",
+  "Planifica tus tareas con anticipación para poder entregarlas a tiempo.",
+  "Participa más en clase para reforzar tu comprensión de los temas.",
+  "Apóyate en familiares o amigos cuando lo necesites.",
+  "Intenta equilibrar tus responsabilidades laborales y académicas.",
+  "Investiga opciones de becas o apoyos económicos disponibles.",
+  "Practica técnicas de manejo del estrés como ejercicios de respiración.",
+  "Busca apoyo psicológico si sientes ansiedad o depresión.",
+  "Infórmate sobre los servicios de ayuda académica y emocional de la universidad.",
+  "Utiliza los servicios de apoyo de la universidad como tutorías y asesorías."
+];
+
 function generarRecomendaciones(puntaje, maxPuntaje) {
   const porcentaje = (puntaje / maxPuntaje) * 100;
   let resultado = "";
@@ -65,17 +83,33 @@ function generarRecomendaciones(puntaje, maxPuntaje) {
 }
 
 app.get('/', (req, res) => {
-  res.render('formulario', { preguntas, resultado: null });
+  res.render('formulario', {
+    preguntas,
+    resultado: null,
+    recomendacionesPreguntas: [],
+    respuestas: []
+  });
 });
 
 app.post('/', async (req, res) => {
   const datos = req.body;
   const nombre = datos.nombre;
   let puntaje = 0;
-  let maxPuntaje = preguntas.length * 3;
+  const maxPuntaje = preguntas.length * 3;
+  const recomendacionesPreguntas = [];
+  const respuestas = [];
 
   for (let i = 1; i <= preguntas.length; i++) {
-    puntaje += parseInt(datos[`p${i}`]) || 0;
+    const valor = parseInt(datos[`p${i}`]) || 0;
+    respuestas.push(valor);
+    puntaje += valor;
+    if (valor <= 1) {
+      recomendacionesPreguntas.push({
+        indice: i - 1,
+        pregunta: preguntas[i - 1],
+        sugerencia: sugerenciasPreguntas[i - 1]
+      });
+    }
   }
 
   const { resultado, razon, recomendaciones, porcentaje } = generarRecomendaciones(puntaje, maxPuntaje);
@@ -96,7 +130,9 @@ app.post('/', async (req, res) => {
     razon,
     recomendaciones,
     puntaje,
-    porcentaje
+    porcentaje,
+    recomendacionesPreguntas,
+    respuestas
   });
 });
 
