@@ -181,6 +181,7 @@ app.post('/api/evaluacion', async (req, res) => {
   res.json({ resultado, razon, recomendaciones, puntaje, porcentaje, maxPuntaje });
 });
 
+
 app.post('/api/retrain', async (req, res) => {
   const token = req.headers['x-retrain-token'];
   const expected = process.env.RETRAIN_TOKEN || 'secret';
@@ -195,3 +196,4 @@ app.post('/api/retrain', async (req, res) => {
 app.listen(3000, () => {
   console.log("Servidor corriendo en http://localhost:3000");
 });
+
