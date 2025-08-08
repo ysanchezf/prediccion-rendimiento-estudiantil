@@ -3,6 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const pasos = document.querySelectorAll('.question-step');
   const resultadoDiv = document.getElementById('resultado');
   const barraPreguntas = document.getElementById('preguntasProgress');
+  const nombreInput = document.querySelector('input[name="nombre"]');
+
+  const validarNombre = () => {
+    const nombre = nombreInput.value.trim();
+    if (!nombre) {
+      alert('Por favor ingresa tu nombre');
+      nombreInput.focus();
+      return false;
+    }
+    return true;
+  };
 
   let pasoActual = 0;
 
@@ -30,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedback = paso.querySelector('.feedback');
 
     btn.addEventListener('click', () => {
+      if (!validarNombre()) return;
       if (!select.value) return;
 
       const valor = parseInt(select.value, 10);
@@ -67,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!validarNombre()) return;
     const formData = new FormData(form);
     const data = {};
     formData.forEach((value, key) => data[key] = value);
