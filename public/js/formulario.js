@@ -107,11 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
         respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
       }
 
+      const recomendaciones = res.recomendaciones
+        ? `<h5>¿Cómo mejorar?</h5><ul>${res.recomendaciones.map(r => `<li>${r}</li>`).join('')}</ul>`
+        : '';
+      const razon = res.razon ? `<p>${res.razon}</p>` : '';
+
       resultadoDiv.innerHTML = `
         <div class="alert alert-info animate__animated animate__fadeInUp">
           <h4>${res.resultado}</h4>
+          ${razon}
           <p><strong>Estudiante:</strong> ${res.nombre}</p>
           <p><strong>Puntaje:</strong> ${res.puntaje} / ${res.maxPuntaje}</p>
+          ${recomendaciones}
           <img src="${imgSrc}" alt="${res.resultado}" class="resultado-img"/>
           ${respuestasHTML}
         </div>
