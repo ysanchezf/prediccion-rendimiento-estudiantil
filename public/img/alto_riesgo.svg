@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="45" fill="#dc3545">
+    <animate attributeName="opacity" values="1;0.6;1" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+  <line x1="30" y1="30" x2="70" y2="70" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+  <line x1="70" y1="30" x2="30" y2="70" stroke="#fff" stroke-width="10" stroke-linecap="round" />
+</svg>

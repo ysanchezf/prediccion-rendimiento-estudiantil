@@ -22,3 +22,17 @@
 .feedback {
   min-height: 1.5rem;
 }
+
+.resultado-img {
+  display: block;
+  margin: 20px auto;
+  width: 150px;
+  height: 150px;
+  animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}

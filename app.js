@@ -19,7 +19,7 @@ function cargarModelo() {
     return JSON.parse(data);
   } catch (err) {
     console.error('No se pudo cargar el modelo, usando pesos por defecto');
-    return { w: 0, b: 0 };
+    return { w: 6, b: -3 };
   }
 }
 
@@ -174,10 +174,9 @@ app.post('/', async (req, res) => {
 
 app.post('/api/evaluacion', async (req, res) => {
   const datos = req.body;
-  const nombre = datos.nombre;
-  if (!nombre || !nombre.trim()) {
-    return res.status(400).json({ error: 'Nombre requerido' });
-  }
+
+  const { nombre, ...respuestas } = datos;
+
   let puntaje = 0;
   let maxPuntaje = preguntas.length * 3;
 
@@ -197,7 +196,16 @@ app.post('/api/evaluacion', async (req, res) => {
     }
   });
 
-  res.json({ resultado, razon, recomendaciones, puntaje, porcentaje, maxPuntaje });
+  res.json({
+    resultado,
+    razon,
+    recomendaciones,
+    puntaje,
+    porcentaje,
+    maxPuntaje,
+    nombre,
+    respuestas
+  });
 });
 
 
@@ -218,4 +226,7 @@ if (require.main === module) {
   });
 }
 
-module.exports = { app, generarRecomendaciones };
+
+module.exports = { app, generarRecomendaciones: predecirRiesgo };
+
+
