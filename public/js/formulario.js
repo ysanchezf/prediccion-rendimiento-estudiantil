@@ -121,24 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div id="progressBar" class="progress-bar" role="progressbar" style="width:0%"></div>
         </div>
-        <canvas id="resumenChart" class="mt-4"></canvas>
       `;
 
       const progressBar = document.getElementById('progressBar');
       progressBar.style.width = `${res.porcentaje}%`;
       progressBar.textContent = `${res.porcentaje.toFixed(2)}%`;
-
-      const ctx = document.getElementById('resumenChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Obtenido', 'Restante'],
-          datasets: [{
-            data: [res.puntaje, res.maxPuntaje - res.puntaje],
-            backgroundColor: ['#0d6efd', '#e9ecef']
-          }]
-        }
-      });
 
     } catch (err) {
       resultadoDiv.innerHTML = `<div class="alert alert-danger">Error al procesar la evaluación</div>`;
