@@ -91,8 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
         body: JSON.stringify(data)
       });
       const res = await response.json();
-      if (!res.nombre) {
-        resultadoDiv.innerHTML = `<div class="alert alert-danger">Nombre no proporcionado</div>`;
+
+      if (!response.ok) {
+        const msg = res.error || 'Error al procesar la evaluación';
+        resultadoDiv.innerHTML = `<div class="alert alert-danger">${msg}</div>`;
         return;
       }
 
@@ -103,17 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
         imgSrc = '/img/riesgo_moderado.svg';
       }
 
-        let respuestasHTML = '';
-        if (res.respuestas) {
-          const items = Object.entries(res.respuestas)
-            .map(([k, v]) => `<li><strong>${k}:</strong> ${v}</li>`)
-            .join('');
-          respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
-        }
+      let respuestasHTML = '';
+      if (res.respuestas) {
+        const items = Object.entries(res.respuestas)
+          .map(([k, v]) => `<li><strong>${k}:</strong> ${v}</li>`)
+          .join('');
+        respuestasHTML = `<h5>Respuestas:</h5><ul>${items}</ul>`;
+      }
 
-        const nombre = res.nombre;
+      let recomendacionesHTML = '';
+      if (Array.isArray(res.recomendaciones)) {
+        const recItems = res.recomendaciones.map(r => `<li>${r}</li>`).join('');
+        recomendacionesHTML = `<h5>Recomendaciones:</h5><ul>${recItems}</ul>`;
+      }
 
-        resultadoDiv.innerHTML = `
+      const nombre = res.nombre;
+
+      resultadoDiv.innerHTML = `
           <div class="alert alert-info animate__animated animate__fadeInUp">
             <h4>${res.resultado}</h4>
             <p><strong>Estudiante:</strong> ${nombre}</p>
